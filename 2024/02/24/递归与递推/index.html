@@ -1,0 +1,258 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>递归与递推 | DoveTao's Blog</title><meta name="author" content="DoveTao"><meta name="copyright" content="DoveTao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="递归与递推各种原因拖更了很久（确实不愧是叫dove），不多聊了，先写（氵）一期  还是多嘴几句吧，这一系列教程会参考很多视频和书籍，毕竟我就一个吊车尾），可以去B站看一下木子喵的视频，对于不少算法讲的很形象（而且声音很好听）。关于数据结构基础知识建议看看ghgg的博客（DS小入门），或者可以找一下《啊哈！算法》看一下（找不到可以来找我要），我主要来做一下算法方面，大概会基于紫书来写（别急我不是oi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="递归与递推">
+<meta property="og:url" content="http://dovetao.top/2024/02/24/%E9%80%92%E5%BD%92%E4%B8%8E%E9%80%92%E6%8E%A8/index.html">
+<meta property="og:site_name" content="DoveTao&#39;s Blog">
+<meta property="og:description" content="递归与递推各种原因拖更了很久（确实不愧是叫dove），不多聊了，先写（氵）一期  还是多嘴几句吧，这一系列教程会参考很多视频和书籍，毕竟我就一个吊车尾），可以去B站看一下木子喵的视频，对于不少算法讲的很形象（而且声音很好听）。关于数据结构基础知识建议看看ghgg的博客（DS小入门），或者可以找一下《啊哈！算法》看一下（找不到可以来找我要），我主要来做一下算法方面，大概会基于紫书来写（别急我不是oi">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://dovetao.top/img/head.png">
+<meta property="article:published_time" content="2024-02-23T16:25:47.000Z">
+<meta property="article:modified_time" content="2024-02-23T16:31:11.225Z">
+<meta property="article:author" content="DoveTao">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://dovetao.top/img/head.png"><link rel="shortcut icon" href="/img/head.png"><link rel="canonical" href="http://dovetao.top/2024/02/24/%E9%80%92%E5%BD%92%E4%B8%8E%E9%80%92%E6%8E%A8/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '递归与递推',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2024-02-24 00:31:11'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/head.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">1</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/games/"><i class="fa-fw fas fa-gamepad"></i><span> 游戏</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="DoveTao's Blog"><span class="site-name">DoveTao's Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/games/"><i class="fa-fw fas fa-gamepad"></i><span> 游戏</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">递归与递推</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-02-23T16:25:47.000Z" title="发表于 2024-02-24 00:25:47">2024-02-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-02-23T16:31:11.225Z" title="更新于 2024-02-24 00:31:11">2024-02-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="递归与递推"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="递归与递推"><a href="#递归与递推" class="headerlink" title="递归与递推"></a>递归与递推</h1><p>各种原因拖更了很久（确实不愧是叫dove），不多聊了，先写（氵）一期</p>
+<blockquote>
+<p>还是多嘴几句吧，这一系列教程会参考很多视频和书籍，毕竟我就一个吊车尾），可以去B站看一下木子喵的视频，对于不少算法讲的很形象（而且声音很好听）。关于数据结构基础知识建议看看ghgg的博客（<a target="_blank" rel="noopener" href="https://cool-wind.top/2024/02/12/DS%E5%B0%8F%E5%85%A5%E9%97%A8/">DS小入门</a>），或者可以找一下《<strong>啊哈！算法</strong>》看一下（找不到可以来找我要），我主要来做一下算法方面，大概会基于紫书来写（别急我不是oier），顺便找点题（其实是预习应对蓝桥杯，毕竟去年捐款300历历在目）</p>
+</blockquote>
+<h2 id="先来讲递归"><a href="#先来讲递归" class="headerlink" title="先来讲递归"></a>先来讲递归</h2><p>递归的定义：见“递归”</p>
+<blockquote>
+<p>或许你没有理解，那我来解释一下</p>
+<p><strong>如果你还没有理解递归，请理解“递归”</strong></p>
+</blockquote>
+<p>好吧这是一个紫书的冷笑话，或许你现在还不明白，一会我来解释（当然一会你自己就看懂了</p>
+<p>首先引入一个经典问题，<strong>汉诺塔</strong>问题</p>
+<blockquote>
+<p>​给定三根柱子，记为<strong>A,B,C</strong>，其中<strong>A</strong>柱上有<strong>n</strong>个盘子，从上到下编号为<strong>1</strong>到<strong>n</strong>，且上面的盘子一定比下面的盘子小。问：将<strong>A</strong>柱上的盘子经由<strong>B</strong>柱移动到<strong>C</strong>柱最少需要多少次？</p>
+<p>​ 移动时应注意：</p>
+<p>① 一次只能移动一个盘子</p>
+<p>​②大的盘子不能压在小盘子上</p>
+</blockquote>
+<p>暴力枚举肯定极其浪费时间，那有没有别的方法呢？</p>
+<p>我们不妨利用“<strong>子问题</strong>”的思路考虑，我们从结果可以知道，第<strong>n</strong>个盘子一定是<strong>C</strong>柱最下面的盘子，所以我们要首先把它移动到<strong>C</strong>柱，那我们应该怎么把它移过去呢？其实很简单，只需要两步：</p>
+<ul>
+<li><p>第一步，把上面的<strong>1</strong>到<strong>n-1</strong>个盘子都移动到<strong>B</strong>柱</p>
+</li>
+<li><p>第二步，把第<strong>n</strong>个盘子移动到<strong>C</strong>柱</p>
+</li>
+</ul>
+<blockquote>
+<p>这不有手就行？你看，没骗你们，很简单吧（别揍我</p>
+</blockquote>
+<p>其实这里就利用了“<strong>子问题</strong>”的思路，将把第<strong>n</strong>个盘子移动到<strong>C</strong>柱分解为两个子问题，第一个子问题就是把上面的<strong>1</strong>到<strong>n-1</strong>个盘子都移动到<strong>B</strong>柱，第二个子问题是把第<strong>n</strong>个盘子移动到<strong>C</strong>柱，于是你会发现汉诺塔问题很简单，只需要三步：</p>
+<ul>
+<li><p>第一步，把上面的<strong>1</strong>到<strong>n-1</strong>个盘子都移动到<strong>B</strong>柱</p>
+</li>
+<li><p>第二步，把第<strong>n</strong>个盘子移动到<strong>C</strong>柱</p>
+</li>
+<li><p>第三步，把<strong>B</strong>柱上面的<strong>1</strong>到<strong>n-1</strong>个盘子都移动到<strong>C</strong>柱</p>
+</li>
+</ul>
+<p>那我们发现，第一个子问题和第三个子问题实际上是一个问题，只是把<strong>A</strong>柱换成了<strong>B</strong>柱，把<strong>B</strong>柱换成了<strong>C</strong>柱，而第二个子问题属于是有手就行。那至于怎么解决第一个子问题，毕竟问题不解决它也不会跑，所以建议留给明天的自己（真诚脸）</p>
+<p>如果你是一个听话的人，这时候你应该刚刚睡醒并且想起来似乎你有n-1个盘子要从<strong>A</strong>柱搬到<strong>B</strong>柱。但是刚刚睡醒的你觉得似乎有什么不对，好像你昨天已经把n个盘子搬走了，今天好像干的活一样，只不过是少搬了一个，以及柱子的编号换了一下。于是你选择继续睡觉，把活交给昨天的自己来干，毕竟昨天的你都可以搬n个盘子，搬n-1个肯定不在话下。如果你是这么想的，恭喜你，下课！</p>
+<p>好吧我来解释一下，今天的你用了昨天的你做了一个相似的事，其实这就是“<strong>递归</strong>”，即问题A的子问题中有与问题A几乎一样的问题，此时就可以使用递归的思想。</p>
+<p>递归思想的难点就在于理解如何分解出“子问题”，以及如何调用“自己”，毕竟我们是在给计算机下命令，所以不能按照人类的思考方式，而是应该去从计算机的处理方式思考。</p>
+<blockquote>
+<p>木子喵视频里面总结的很精炼，引用一下：递归思想就是将未知的问题缩小，直到访问到已知问题，便开始返回值，最后解决我们的问题。</p>
+</blockquote>
+<blockquote>
+<p>人类的本质是套娃，递归的本质也是  </p>
+</blockquote>
+<p>现在你应该理解了上面的冷笑话——递归的定义：见“递归”。因为递归不正是调用自己吗（</p>
+<p>在编程中，函数可以调用另一个函数。而一个函数调用了自己，就是<strong>递归</strong>。</p>
+<p>用<strong>阶乘</strong>举例说明一下吧，先给出阶乘的代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">f</span><span class="params">(<span class="type">int</span> a)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(a &gt; <span class="number">0</span>)</span><br><span class="line">      <span class="keyword">return</span> a*f(a<span class="number">-1</span>);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      <span class="keyword">return</span> <span class="number">1</span>;  <span class="comment">//注意f(0)是1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//翻书发现了一种更简单的写法，显得我很呆</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">f</span><span class="params">(<span class="type">int</span> a)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> a == <span class="number">0</span> ? <span class="number">1</span> : a*f(a<span class="number">-1</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里就在函数f(x)里面调用了f(x)</p>
+<p>递归好用，但是一定要记得写<strong>终止条件</strong>，不然无限递归······TLE大家族欢迎你</p>
+<blockquote>
+<p>对没错，TLE&#x3D;Time Limit Enough&#x3D;时间充裕</p>
+</blockquote>
+<p>递归还有一个隐患，就是爆栈，即<strong>栈溢出</strong>。因为每次调用函数都是会在调用栈增加一个栈帧，而调用栈所在的堆栈段是有大小限制的，久而久之可能就会出现越界访问，出现段错误。当然，栈溢出不一定完全是因为<strong>递归调用次数</strong>太多，也有可能是<strong>局部变量</strong>过大（因为局部变量也是放在堆栈段）。所以可以使用全局变量解决一部分栈溢出问题。</p>
+<p>我们回过头来解决汉诺塔问题，给出代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">move</span><span class="params">(<span class="type">int</span> n, <span class="type">char</span> a, <span class="type">char</span> b, <span class="type">char</span> c)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;<span class="comment">//一定记得写终止条件</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        move(n - <span class="number">1</span>, a, c, b);<span class="comment">//将n-1个盘子移动到工具柱b</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%c -&gt; %c \n&quot;</span>, a, c);<span class="comment">//将第n个盘子移动到目标柱c</span></span><br><span class="line">        move(n - <span class="number">1</span>, b, a, c);<span class="comment">//将n-1个盘子移动到目标柱c</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="现在是递推时间"><a href="#现在是递推时间" class="headerlink" title="现在是递推时间"></a>现在是递推时间</h2><p>递归，是由未知问题通过分解为“子问题”返回已知问题，最后求解；递推，则是由已知问题推出未知问题。</p>
+<p>这里引入一个经典的问题，兔子繁殖问题（斐波那契数列）。</p>
+<blockquote>
+<p>自己百度吧，懒得码字了（</p>
+<p>还有我知道你生物好，近亲交配致死率高可能没几只兔子活着，但是这是数学问题（恼</p>
+</blockquote>
+<p>请问第n个月有几只兔子？</p>
+<ol>
+<li>可以用递推（代码大致如下</li>
+</ol>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> tuzi[<span class="number">100</span>];</span><br><span class="line">tuzi[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">tuzi[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">f</span><span class="params">(<span class="type">int</span> n)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">2</span>;i &lt;= n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        tuzi[i] = tuzi[i<span class="number">-1</span>] + tuzi[i<span class="number">-2</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>递归（代码大致如下</li>
+</ol>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">f</span><span class="params">(<span class="type">int</span> n)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(n == <span class="number">0</span>||n == <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> f(n<span class="number">-1</span>) + f(n<span class="number">-2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里给一下洛谷题单<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/training/109#problems">递推与递归</a></p>
+<blockquote>
+<p>如果有啥要补充的我再单独氵一篇博客</p>
+<p>下一期大概率是DP</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://dovetao.top">DoveTao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://dovetao.top/2024/02/24/%E9%80%92%E5%BD%92%E4%B8%8E%E9%80%92%E6%8E%A8/">http://dovetao.top/2024/02/24/%E9%80%92%E5%BD%92%E4%B8%8E%E9%80%92%E6%8E%A8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://dovetao.top" target="_blank">DoveTao's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a></div><div class="post_share"><div class="social-share" data-image="/img/head.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="lv-container" data-id="city" data-uid="MTAyMC81OTQyMC8zNTg4Mg=="></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/head.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">DoveTao</div><div class="author-info__description">某大专自动化吊车尾一名(</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">1</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/DoveTao" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:dovetao04@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%92%E5%BD%92%E4%B8%8E%E9%80%92%E6%8E%A8"><span class="toc-number">1.</span> <span class="toc-text">递归与递推</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E6%9D%A5%E8%AE%B2%E9%80%92%E5%BD%92"><span class="toc-number">1.1.</span> <span class="toc-text">先来讲递归</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%B0%E5%9C%A8%E6%98%AF%E9%80%92%E6%8E%A8%E6%97%B6%E9%97%B4"><span class="toc-number">1.2.</span> <span class="toc-text">现在是递推时间</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/02/24/%E9%80%92%E5%BD%92%E4%B8%8E%E9%80%92%E6%8E%A8/" title="递归与递推">递归与递推</a><time datetime="2024-02-23T16:25:47.000Z" title="发表于 2024-02-24 00:25:47">2024-02-24</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By DoveTao</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(()=>{
+  const loadLivere = () => {
+    if (typeof LivereTower === 'object') window.LivereTower.init()
+    else {
+      (function(d, s) {
+          var j, e = d.getElementsByTagName(s)[0];
+          if (typeof LivereTower === 'function') { return; }
+          j = d.createElement(s);
+          j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+          j.async = true;
+          e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    }
+  }
+
+  if ('Livere' === 'Livere' || !false) {
+    if (false) btf.loadComment(document.getElementById('lv-container'), loadLivere)
+    else loadLivere()
+  } else {
+    window.loadOtherComment = loadLivere
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
